@@ -340,7 +340,7 @@ subscribeBtn.addEventListener('click', async () => {
     return;
   }
 
-  await fetch("...", {
+  await fetch("https://script.google.com/macros/s/AKfycbzXgqwnLeUfn3wdLUkSAkElIWcSOWqUQlFTLt-py_agpwnQR1ANUOF8cmrWsbhTReX5/exec", {
     method: "POST",
     body: JSON.stringify({ email: email })
   });
@@ -357,4 +357,3 @@ subscriberCount.textContent = `Subscribers: ${subscribers}`;
 </html>
 
 
-https://script.google.com/macros/s/AKfycbzXgqwnLeUfn3wdLUkSAkElIWcSOWqUQlFTLt-py_agpwnQR1ANUOF8cmrWsbhTReX5/exec
