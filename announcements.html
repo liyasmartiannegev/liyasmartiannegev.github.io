@@ -151,7 +151,8 @@
       margin-left: 30px;
       margin-right: 30px;
       height: 48px;
-      line-height: 24px;
+      line-height: 32px;
+      padding-right: 30px;
       overflow: hidden;
       position: relative;
       text-align: left;
@@ -160,8 +161,10 @@
 
     .announcement-box:not(.expanded) .announcement-content p::after {
       content: '...';
+      font-size: 40px;
+      font-weight: bold; 
       position: absolute;
-      bottom: 5px;
+      bottom: 0px;
       right: 0;
       color: rgb(117, 40, 194);
       font-family: Gabriola, "Times New Roman", serif;
@@ -272,7 +275,7 @@
       </div>
 
       <div class="subscribe-box">
-        <h2>Subscribe to LMN to receive announcements directly!</h2>
+        <h2>Subscribe to LMN!</h2>
         <input type="email" id="email" placeholder="Enter your email">
         <button id="subscribe-btn">Subscribe</button>
         <div class="subscribe-count" id="subscriber-count">Subscribers: 0</div>
@@ -282,18 +285,18 @@
         <h2>LMN News!</h2>
 
         <div class="announcement-box">
-          <div class="announcement-date">April 26, 2026</div>
+          <div class="announcement-date">May 13, 2026</div>
           <div class="announcement-content">
             <h3>My first two papers are posted!</h3>
-            <p>Announcement 2 text.</p>
+            <p>Hi LMN users! Along with the launch of this blog, my first two papers are posted and can be found in the "Papers" tab in the sidebar to the left. Both papers focus on mycology (the study of fungi) and its implications on terraformation. The first one, "Revolutionizing Martian Construction by Determining the Melanin Concentrations and Growth Patterns of Extremophilic, Filamentous Fungi in Nahal Shaharut (Negev Desert)", focuses on construction on Mars through bio composities, while the second one, "Radiated Aspergillus Niger Acting as a Natural UV Radiation Detector and Transforming Nahal Shaharut (Negev Desert) into a Martian Simulator" focuses on a potential Southern Negev UV radiation research station. I wrote them with the intention of having them read as a pair, I hope you all enjoy!</p>
           </div>
         </div>
 
         <div class="announcement-box">
-          <div class="announcement-date">April 26, 2026</div>
+          <div class="announcement-date">May 13, 2026</div>
           <div class="announcement-content">
             <h3>LMN is launched!</h3>
-            <p>Announcement 1 text.</p>
+            <p>Welcome LMN users!</p>
           </div>
         </div>
       </div>
