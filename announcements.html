@@ -310,7 +310,8 @@
     const announcementBoxes = document.querySelectorAll('.announcement-box');
     const subscribeBtn = document.getElementById('subscribe-btn');
     const subscriberCount = document.getElementById('subscriber-count');
-    let subscribers = 0;
+    let subscribers = localStorage.getItem("subscribers") || 0;
+subscriberCount.textContent = `Subscribers: ${subscribers}`;
 
     announcementBoxes.forEach(box => {
       const closeButton = document.createElement('button');
@@ -344,8 +345,9 @@ subscribeBtn.addEventListener('click', async () => {
     body: JSON.stringify({ email: email })
   });
 
-  subscribers++;
-  subscriberCount.textContent = `Subscribers: ${subscribers}`;
+subscribers++;
+localStorage.setItem("subscribers", subscribers);
+subscriberCount.textContent = `Subscribers: ${subscribers}`;
 
   document.getElementById('email').value = '';
   alert("Thank you for subscribing!");
