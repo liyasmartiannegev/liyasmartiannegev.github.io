@@ -307,50 +307,40 @@
   </div>
 
   <script>
-const subscriberCount = document.getElementById('subscriber-count');
 const subscribeBtn = document.getElementById('subscribe-btn');
+const subscriberCount = document.getElementById('subscriber-count');
 
-let subscribers = localStorage.getItem("subscribers");
-
-// Ensure subscribers is a proper number
-if (subscribers === null || isNaN(subscribers)) {
-  subscribers = 0;
-} else {
-  subscribers = Number(subscribers);
-}
-
-// Display initial value
+// Initialize count from localStorage, or start at 0
+let subscribers = parseInt(localStorage.getItem("subscribers")) || 0;
 subscriberCount.textContent = `Subscribers: ${subscribers}`;
 
 subscribeBtn.addEventListener('click', async () => {
-  const emailInput = document.getElementById('email');
-  const email = emailInput.value.trim();
+  const email = document.getElementById('email').value;
 
   if (!email) {
     alert("Please enter email");
     return;
   }
 
-  // Send to Google Sheets (replace "..." with your URL)
-  await fetch("
+  try {
+    // Send email to your Google Sheet
+    await fetch("
 https://script.google.com/macros/s/AKfycbzXgqwnLeUfn3wdLUkSAkElIWcSOWqUQlFTLt-py_agpwnQR1ANUOF8cmrWsbhTReX5/exec", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ email })
-  });
+      method: "POST",
+      body: JSON.stringify({ email: email })
+    });
 
-  // Increment and store
-  subscribers += 1;
-  localStorage.setItem("subscribers", subscribers);
+    // Increment subscriber count locally
+    subscribers++;
+    localStorage.setItem("subscribers", subscribers);
+    subscriberCount.textContent = `Subscribers: ${subscribers}`;
 
-  // Update UI
-  subscriberCount.textContent = `Subscribers: ${subscribers}`;
-
-  // Clear input
-  emailInput.value = '';
-  alert("Thank you for subscribing!");
+    document.getElementById('email').value = '';
+    alert("Thank you for subscribing!");
+  } catch (err) {
+    console.error("Subscription failed", err);
+    alert("Failed to subscribe. Try again later.");
+  }
 });
   </script> 
 </body>
