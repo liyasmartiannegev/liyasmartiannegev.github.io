@@ -310,7 +310,7 @@
     const announcementBoxes = document.querySelectorAll('.announcement-box');
     const subscribeBtn = document.getElementById('subscribe-btn');
     const subscriberCount = document.getElementById('subscriber-count');
-    let subscribers = localStorage.getItem("subscribers") || 0;
+    let subscribers = parseInt(localStorage.getItem("subscribers")) || 0;
 subscriberCount.textContent = `Subscribers: ${subscribers}`;
 
     announcementBoxes.forEach(box => {
@@ -340,7 +340,7 @@ subscribeBtn.addEventListener('click', async () => {
     return;
   }
 
-  await fetch("https://script.google.com/macros/s/AKfycbzXgqwnLeUfn3wdLUkSAkElIWcSOWqUQlFTLt-py_agpwnQR1ANUOF8cmrWsbhTReX5/exec", {
+  await fetch("...", {
     method: "POST",
     body: JSON.stringify({ email: email })
   });
@@ -355,3 +355,6 @@ subscriberCount.textContent = `Subscribers: ${subscribers}`;
   </script> 
 </body>
 </html>
+
+
+https://script.google.com/macros/s/AKfycbzXgqwnLeUfn3wdLUkSAkElIWcSOWqUQlFTLt-py_agpwnQR1ANUOF8cmrWsbhTReX5/exec
