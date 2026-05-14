@@ -330,17 +330,26 @@
       });
     });
 
-    subscribeBtn.addEventListener('click', () => {
-      const email = document.getElementById('email').value;
-      if (email) {
-        subscribers++;
-        subscriberCount.textContent = `Subscribers: ${subscribers}`;
-        document.getElementById('email').value = ''; 
-        alert('Thank you for subscribing!');
-      } else {
-        alert('Please enter a valid email.');
-      }
-    });
-  </script>
+
+subscribeBtn.addEventListener('click', async () => {
+  const email = document.getElementById('email').value;
+
+  if (!email) {
+    alert("Please enter email");
+    return;
+  }
+
+  await fetch("https://script.google.com/macros/s/AKfycbzXgqwnLeUfn3wdLUkSAkElIWcSOWqUQlFTLt-py_agpwnQR1ANUOF8cmrWsbhTReX5/exec", {
+    method: "POST",
+    body: JSON.stringify({ email: email })
+  });
+
+  subscribers++;
+  subscriberCount.textContent = `Subscribers: ${subscribers}`;
+
+  document.getElementById('email').value = '';
+  alert("Thank you for subscribing!");
+});
+  </script> 
 </body>
 </html>
