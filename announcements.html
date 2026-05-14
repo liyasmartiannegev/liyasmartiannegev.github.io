@@ -307,13 +307,6 @@
   </div>
 
   <script>
-const subscribeBtn = document.getElementById('subscribe-btn');
-const subscriberCount = document.getElementById('subscriber-count');
-
-// Initialize count from localStorage, or start at 0
-let subscribers = parseInt(localStorage.getItem("subscribers")) || 0;
-subscriberCount.textContent = `Subscribers: ${subscribers}`;
-
 subscribeBtn.addEventListener('click', async () => {
   const email = document.getElementById('email').value;
 
@@ -323,17 +316,13 @@ subscribeBtn.addEventListener('click', async () => {
   }
 
   try {
-    // Send email to your Google Sheet
-    await fetch("
-https://script.google.com/macros/s/AKfycbzXgqwnLeUfn3wdLUkSAkElIWcSOWqUQlFTLt-py_agpwnQR1ANUOF8cmrWsbhTReX5/exec", {
+    await fetch("https://script.google.com/macros/s/AKfycbzXgqwnLeUfn3wdLUkSAkElIWcSOWqUQlFTLt-py_agpwnQR1ANUOF8cmrWsbhTReX5/exec", {
       method: "POST",
       body: JSON.stringify({ email: email })
     });
 
-    // Increment subscriber count locally
-    subscribers++;
-    localStorage.setItem("subscribers", subscribers);
-    subscriberCount.textContent = `Subscribers: ${subscribers}`;
+    // Update subscriber count globally
+    await updateSubscriberCount();
 
     document.getElementById('email').value = '';
     alert("Thank you for subscribing!");
@@ -345,4 +334,5 @@ https://script.google.com/macros/s/AKfycbzXgqwnLeUfn3wdLUkSAkElIWcSOWqUQlFTLt-py
   </script> 
 </body>
 </html>
+
 
