@@ -288,7 +288,7 @@
           <div class="announcement-date">May 13, 2026</div>
           <div class="announcement-content">
             <h3>My first two papers are posted!</h3>
-            <p>Hi LMN users! Along with the launch of this blog, my first two papers are posted and can be found in the "Papers" tab in the sidebar to the left. Both papers focus on mycology (the study of fungi) and its implications on terraformation. The first one, "Revolutionizing Martian Construction by Determining the Melanin Concentrations and Growth Patterns of Extremophilic, Filamentous Fungi in Nahal Shaharut (Negev Desert)", focuses on construction on Mars through bio composities, while the second one, "Radiated Aspergillus Niger Acting as a Natural UV Radiation Detector and Transforming Nahal Shaharut (Negev Desert) into a Martian Simulator" focuses on a potential Southern Negev UV radiation research station. I wrote them with the intention of having them read as a pair, I hope you all enjoy!</p>
+            <p>Hi LMN users! Along with the launch of this blog, my first two papers are posted and can be found in the "Papers" tab in the sidebar to the left. Both papers focus on mycology (the study of fungi) and its implications on terraformation. The first one, "Revolutionizing Martian Construction by Determining the Melanin Concentrations and Growth Patterns of Extremophilic, Filamentous Fungi in Nahal Shaharut (Negev Desert)", focuses on construction on Mars through fungal bio composities, while the second one, "Radiated Aspergillus Niger Acting as a Natural UV Radiation Detector and Transforming Nahal Shaharut (Negev Desert) into a Martian Simulator" focuses on a potential Southern Negev UV radiation research station. I wrote them with the intention of having them read as a pair, I hope you all enjoy!</p>
           </div>
         </div>
 
@@ -310,50 +310,107 @@
   </div>
 
   <script>
-    const announcementBoxes = document.querySelectorAll('.announcement-box');
-    const subscribeBtn = document.getElementById('subscribe-btn');
-    const subscriberCount = document.getElementById('subscriber-count');
-    let subscribers = parseInt(localStorage.getItem("subscribers")) || 0;
-subscriberCount.textContent = `Subscribers: ${subscribers}`;
+// --------------------
+// Frontend JavaScript for subscriber button
+// --------------------
 
-    announcementBoxes.forEach(box => {
-      const closeButton = document.createElement('button');
-      closeButton.textContent = '×';
-      closeButton.classList.add('close-btn');
-      box.appendChild(closeButton);
+const announcementBoxes = document.querySelectorAll('.announcement-box');
+const subscribeBtn = document.getElementById('subscribe-btn');
+const subscriberCount = document.getElementById('subscriber-count');
 
-      box.addEventListener('click', function() {
-        if (!this.classList.contains('expanded')) {
-          this.classList.add('expanded');
-        }
-      });
+// Replace this with your actual Google Apps Script URL
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby9zqd0sAlzvdPEUlk6fTuPTAYQQ7VslehG3IbZfhKhTg7RpBeTJ6eql1g007Dnp1UU/exec";
 
-      closeButton.addEventListener('click', function(event) {
-        event.stopPropagation();
-        box.classList.remove('expanded');
-      });
-    });
+// --------------------
+// Load global subscriber count
+// --------------------
+async function loadSubscriberCount() {
+  try {
+    const response = await fetch(SCRIPT_URL);
+    const data = await response.json();
 
+    // subtract 1 if your sheet has a header row
+    const count = Math.max(data.length - 1, 0);
+    subscriberCount.textContent = `Subscribers: ${count}`;
 
+    return data;
+
+  } catch (err) {
+    console.error("Failed to load subscriber count:", err);
+    subscriberCount.textContent = "Subscribers: ?";
+    return [];
+  }
+}
+
+// Initial load
+loadSubscriberCount();
+
+// --------------------
+// Announcement boxes (optional, your existing code)
+// --------------------
+announcementBoxes.forEach(box => {
+  const closeButton = document.createElement('button');
+  closeButton.textContent = '×';
+  closeButton.classList.add('close-btn');
+  box.appendChild(closeButton);
+
+  box.addEventListener('click', function() {
+    if (!this.classList.contains('expanded')) {
+      this.classList.add('expanded');
+    }
+  });
+
+  closeButton.addEventListener('click', function(event) {
+    event.stopPropagation();
+    box.classList.remove('expanded');
+  });
+});
+
+// --------------------
+// Subscribe button click
+// --------------------
 subscribeBtn.addEventListener('click', async () => {
-  const email = document.getElementById('email').value;
+
+  const emailInput = document.getElementById('email');
+  const email = emailInput.value.trim().toLowerCase();
 
   if (!email) {
     alert("Please enter email");
     return;
   }
 
-  await fetch("https://script.google.com/macros/s/AKfycbzXgqwnLeUfn3wdLUkSAkElIWcSOWqUQlFTLt-py_agpwnQR1ANUOF8cmrWsbhTReX5/exec", {
-    method: "POST",
-    body: JSON.stringify({ email: email })
-  });
+  try {
+    // Get current emails from Google Sheet
+    const existingData = await loadSubscriberCount();
 
-subscribers++;
-localStorage.setItem("subscribers", subscribers);
-subscriberCount.textContent = `Subscribers: ${subscribers}`;
+    const existingEmails = existingData.map(row => {
+      if (typeof row === "string") return row.toLowerCase();
+      return Object.values(row)[0]?.toLowerCase();
+    });
 
-  document.getElementById('email').value = '';
-  alert("Thank you for subscribing!");
+    // Prevent duplicate emails
+    if (existingEmails.includes(email)) {
+      alert("This email is already subscribed.");
+      return;
+    }
+
+    // Add new subscriber
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      body: JSON.stringify({ email: email })
+    });
+
+    // Refresh global count
+    await loadSubscriberCount();
+
+    emailInput.value = '';
+    alert("Thank you for subscribing!");
+
+  } catch (err) {
+    console.error("Subscription failed:", err);
+    alert("Something went wrong. Please try again later.");
+  }
+
 });
   </script> 
 </body>
