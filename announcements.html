@@ -310,28 +310,30 @@
   </div>
 
   <script>
-// --------------------
-// Frontend JavaScript for subscriber button
-// --------------------
+
 
 const announcementBoxes = document.querySelectorAll('.announcement-box');
 const subscribeBtn = document.getElementById('subscribe-btn');
 const subscriberCount = document.getElementById('subscriber-count');
 
-// Replace this with your actual Google Apps Script URL
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby9zqd0sAlzvdPEUlk6fTuPTAYQQ7VslehG3IbZfhKhTg7RpBeTJ6eql1g007Dnp1UU/exec";
 
-// --------------------
-// Load global subscriber count
-// --------------------
+
+let cachedCount = localStorage.getItem("subscriberCount");
+subscriberCount.textContent = cachedCount ? `Subscribers: ${cachedCount}` : "Subscribers: loading…";
+
+
 async function loadSubscriberCount() {
   try {
     const response = await fetch(SCRIPT_URL);
     const data = await response.json();
 
-    // subtract 1 if your sheet has a header row
+
     const count = Math.max(data.length - 1, 0);
     subscriberCount.textContent = `Subscribers: ${count}`;
+
+
+    localStorage.setItem("subscriberCount", count);
 
     return data;
 
@@ -345,9 +347,7 @@ async function loadSubscriberCount() {
 // Initial load
 loadSubscriberCount();
 
-// --------------------
-// Announcement boxes (optional, your existing code)
-// --------------------
+
 announcementBoxes.forEach(box => {
   const closeButton = document.createElement('button');
   closeButton.textContent = '×';
@@ -366,9 +366,7 @@ announcementBoxes.forEach(box => {
   });
 });
 
-// --------------------
-// Subscribe button click
-// --------------------
+
 subscribeBtn.addEventListener('click', async () => {
 
   const emailInput = document.getElementById('email');
@@ -380,7 +378,7 @@ subscribeBtn.addEventListener('click', async () => {
   }
 
   try {
-    // Get current emails from Google Sheet
+
     const existingData = await loadSubscriberCount();
 
     const existingEmails = existingData.map(row => {
@@ -388,19 +386,19 @@ subscribeBtn.addEventListener('click', async () => {
       return Object.values(row)[0]?.toLowerCase();
     });
 
-    // Prevent duplicate emails
+
     if (existingEmails.includes(email)) {
       alert("This email is already subscribed.");
       return;
     }
 
-    // Add new subscriber
+  
     await fetch(SCRIPT_URL, {
       method: "POST",
       body: JSON.stringify({ email: email })
     });
 
-    // Refresh global count
+
     await loadSubscriberCount();
 
     emailInput.value = '';
