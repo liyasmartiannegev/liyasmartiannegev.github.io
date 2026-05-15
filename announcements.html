@@ -76,18 +76,19 @@
       font-weight: bold; 
     }
 
-    .sidebar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 200px;
-      background: rgb(232, 229, 255); 
-      border-right: 1px solid #aaa;
-      padding-top: 110px;
-      text-align: center;
-      font-weight: bold;
-      height: 100%;
-    }
+.sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
+  background: rgb(232, 229, 255); 
+  border-right: 1px solid #aaa;
+  padding-top: 110px;
+  text-align: center;
+  font-weight: bold;
+  height: auto;
+  bottom: 0;
+}
 
     .sidebar a {
       display: block;
@@ -104,19 +105,23 @@
       background: rgb(166, 252, 215);
     }
 
-    .sidebar p {
-      position: absolute;
-      bottom: 10px;  
-      width: 100%; 
-      text-align: center; 
-      font-size: 10px; 
-      color: rgb(117, 40, 194); 
-    }
 
-    .announcements-section {
-      padding: 20px;
-      margin-top: 220px;
-    }
+
+    .sidebar-copyright {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+  color: rgb(117, 40, 194);
+}
+
+
+.announcements-section {
+  padding: 20px;
+  margin-top: 220px;
+  padding-bottom: 120px;
+}
 
     .announcement-box {
       background: #fff;
@@ -271,7 +276,6 @@
       <div class="header-container">
         <a href="index.html"><h1 class="site-title">Liya's Martian Negev</h1></a>
         <div class="header-line"></div>
-        <p class="copyright">© Liya's Martian Negev</p>
       </div>
 
       <div class="subscribe-box">
@@ -302,12 +306,13 @@
       </div>
     </div>
 
-    <div class="sidebar">
-      <a href="index.html">Home</a>
-      <a href="announcements.html">Announcements</a>
-      <a href="papers.html">Papers</a>
-    </div>
-  </div>
+<div class="sidebar">
+  <a href="index.html">Home</a>
+  <a href="announcements.html">Announcements</a>
+  <a href="papers.html">Papers</a>
+
+  <p class="sidebar-copyright">© Liya's Martian Negev</p>
+</div>
 
   <script>
 
