@@ -313,8 +313,7 @@
   <p class="sidebar-copyright">© Liya's Martian Negev</p>
 </div>
 
-  <script>
-
+<script>
 
 const announcementBoxes = document.querySelectorAll('.announcement-box');
 const subscribeBtn = document.getElementById('subscribe-btn');
@@ -322,20 +321,16 @@ const subscriberCount = document.getElementById('subscriber-count');
 
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby9zqd0sAlzvdPEUlk6fTuPTAYQQ7VslehG3IbZfhKhTg7RpBeTJ6eql1g007Dnp1UU/exec";
 
-
 let cachedCount = localStorage.getItem("subscriberCount");
 subscriberCount.textContent = cachedCount ? `Subscribers: ${cachedCount}` : "Subscribers: loading…";
-
 
 async function loadSubscriberCount() {
   try {
     const response = await fetch(SCRIPT_URL);
     const data = await response.json();
 
-
     const count = Math.max(data.length - 1, 0);
     subscriberCount.textContent = `Subscribers: ${count}`;
-
 
     localStorage.setItem("subscriberCount", count);
 
@@ -348,9 +343,8 @@ async function loadSubscriberCount() {
   }
 }
 
-// Initial load
-loadSubscriberCount();
 
+loadSubscriberCount();
 
 announcementBoxes.forEach(box => {
   const closeButton = document.createElement('button');
@@ -361,18 +355,30 @@ announcementBoxes.forEach(box => {
   box.addEventListener('click', function() {
     if (!this.classList.contains('expanded')) {
       this.classList.add('expanded');
+      // ONLY adjust this box
+      const subscribeBox = document.querySelector('.subscribe-box');
+      this.style.top = `${subscribeBox.offsetTop}px`;
     }
   });
 
   closeButton.addEventListener('click', function(event) {
     event.stopPropagation();
     box.classList.remove('expanded');
+    // Reset top when collapsing
+    box.style.top = '';
   });
 });
 
 
-subscribeBtn.addEventListener('click', async () => {
+window.addEventListener('resize', () => {
+  const subscribeBox = document.querySelector('.subscribe-box');
+  const expandedBoxes = document.querySelectorAll('.announcement-box.expanded');
+  expandedBoxes.forEach(box => {
+    box.style.top = `${subscribeBox.offsetTop}px`;
+  });
+});
 
+subscribeBtn.addEventListener('click', async () => {
   const emailInput = document.getElementById('email');
   const email = emailInput.value.trim().toLowerCase();
 
@@ -382,7 +388,6 @@ subscribeBtn.addEventListener('click', async () => {
   }
 
   try {
-
     const existingData = await loadSubscriberCount();
 
     const existingEmails = existingData.map(row => {
@@ -390,18 +395,15 @@ subscribeBtn.addEventListener('click', async () => {
       return Object.values(row)[0]?.toLowerCase();
     });
 
-
     if (existingEmails.includes(email)) {
       alert("This email is already subscribed.");
       return;
     }
 
-  
     await fetch(SCRIPT_URL, {
       method: "POST",
       body: JSON.stringify({ email: email })
     });
-
 
     await loadSubscriberCount();
 
@@ -412,9 +414,8 @@ subscribeBtn.addEventListener('click', async () => {
     console.error("Subscription failed:", err);
     alert("Something went wrong. Please try again later.");
   }
-
 });
-  </script> 
+</script>
 </body>
 </html>
 
