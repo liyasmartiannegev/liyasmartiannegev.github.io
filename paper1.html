@@ -173,11 +173,11 @@ text-decoration: underline;
 
 .logo {
   position: absolute;
-  top: -38px;
-  left: -38px;
-  width: 15%;       /* Relative to the container, scales with screen */
-  max-width: 150px; /* Won't get bigger than 150px */
-  height: auto;     /* Maintains aspect ratio */
+  top: -38px;         /* keeps laptop position */
+  left: -38px;        /* keeps laptop position */
+  width: 15vw;        /* scales with viewport width on mobile */
+  max-width: 150px;   /* keeps laptop size on large screens */
+  height: auto;       /* preserves aspect ratio */
   z-index: 10;
 }
 
