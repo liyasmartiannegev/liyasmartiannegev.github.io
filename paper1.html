@@ -173,18 +173,20 @@ text-decoration: underline;
 
 .logo {
   position: absolute;
-  top: -38px;         /* locked for desktop */
-  left: -38px;        /* locked for desktop */
-  width: 22vw;        /* scales larger on smaller screens */
-  max-width: 150px;   /* keeps desktop size exactly */
-  height: auto;       /* maintains proportions */
+  top: -38px;         
+  left: -38px;       
+  width: 22vw;        
+  max-width: 150px;   
+  height: auto;       
   z-index: 10;
 }
 
 @media (max-width: 768px) {
   .logo {
-    top: -35px;    /* higher on mobile */
-    left: -20px;   /* more to the left on mobile */
+    top: -35px;    
+    left: -20px;   
+    width: 120px;   /* fix logo size for mobile */
+    max-width: 120px;  /* prevents growing on horizontal rotation */
   }
 }
 
