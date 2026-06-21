@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Negev Map</title>
+
+<style>
+
+body {
+  font-family: 'Gabriola', 'Times New Roman', serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background: rgb(209, 255, 235);
+}
+
+/* ========================= */
+/* WRAPPER (KEY FIX) */
+/* ========================= */
+
+.page-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: rgb(209, 255, 235);
+}
+
+html, body {
+  height: 100%;
+}
+
+/* ========================= */
+/* SIDEBAR (NOW BEHAVES LIKE ANNOUNCEMENTS) */
+/* ========================= */
+
+.sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 200px;
+
+  min-height: 120%;   /* KEY CHANGE */
+
+  background: rgb(232, 229, 255); 
+  border-right: 1px solid #aaa;
+
+  padding-top: 110px;
+  text-align: center;
+  font-weight: bold;
+}
+
+    .sidebar a {
+      display: block;
+      margin: 10px 10px;
+      padding: 10px;
+      font-size: 18px;
+      background: white;
+      border: 1px solid #bbb;
+      text-decoration: none;
+      color: rgb(35, 130, 99);
+    }
+
+    .sidebar a:hover {
+      background: rgb(166, 252, 215);
+    }
+
+
+
+    .sidebar-copyright {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  font-size: 10px;
+  color: rgb(117, 40, 194);
+}
+
+/* ========================= */
+/* CONTENT */
+/* ========================= */
+
+.content {
+  margin-left: 200px;
+  padding-bottom: 120px;
+}
+
+/* ========================= */
+/* HEADER (same as announcements) */
+/* ========================= */
+
+.header-container {
+  background: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  border: 8px solid rgb(117, 40, 194);
+  border-image: radial-gradient(circle, rgb(7, 206, 152), rgb(150, 81, 234));
+  border-image-slice: 1;
+}
+
+.header-container:hover {
+  background: rgb(166, 252, 215);
+}
+
+.header-container a {
+  text-decoration: none;
+}
+
+.site-title {
+  text-align: center;
+  font-size: 84px;
+  color: rgb(114, 16, 211);
+  line-height: 0.8;
+  margin: 0;
+  font-weight: bold;
+}
+
+/* ========================= */
+/* TEXT */
+/* ========================= */
+
+h1 {
+  color: rgb(35, 130, 99);
+  margin-bottom: 10px;
+}
+
+.instructions {
+  margin-bottom: 25px;
+  color: rgb(117, 40, 194);
+  font-style: italic;
+  font-weight: bold;
+}
+
+/* ========================= */
+/* MAP */
+/* ========================= */
+
+.map-container {
+  position: relative;
+  max-width: 1000px;
+  height: 650px;
+  margin: auto;
+  overflow: hidden;
+  border: 4px double rgb(7, 206, 152);
+  border-radius: 8px;
+}
+
+.map-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: center center;
+  cursor: grab;
+  user-select: none;
+}
+
+
+.map-wrapper:active {
+  cursor: grabbing;
+}
+
+.map-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+
+/* ZOOM */
+
+.zoom-controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 100;
+}
+
+.zoom-controls button {
+  font-size: 18px;
+  margin: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+
+  background: rgb(117, 40, 194);
+  color: white;
+  border: none;
+}
+
+.zoom-controls button:hover {
+  background: rgb(7, 206, 152);
+  color: white;
+}
+
+/* MARKERS */
+
+.marker {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background: rgb(117, 40, 194);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: .3s;
+}
+
+.marker:hover {
+  background: rgb(7, 206, 152);
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+.label {
+  position: absolute;
+  transform: translate(-50%, 15px);
+  font-size: 14px;
+  font-weight: bold;
+  color: rgb(117, 40, 194);
+}
+
+/* ========================= */
+/* POPUPS */
+/* ========================= */
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 650px;
+  max-width: 90%;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(0,0,0,.4);
+  z-index: 1000;
+  text-align: left;
+}
+
+.popup:target {
+  display: block;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: rgb(35, 130, 99);
+  text-align: center;
+}
+
+.popup p {
+  color: rgb(35, 130, 99);
+  font-style: italic;
+  font-weight: bold;
+  text-align: center;
+}
+
+.popup h3 {
+  color: rgb(35, 130, 99);
+}
+
+.close {
+  float: right;
+  font-size: 24px;
+  text-decoration: none;
+  color: #777;
+}
+
+.close:hover {
+  color: black;
+}
+
+.overlay {
+  display: none;
+}
+
+.popup:target + .overlay {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.55);
+  z-index: 900;
+}
+
+.paper-link {
+  display: block;
+  margin: 10px 0;
+  padding: 12px;
+  background: rgb(232, 229, 255);
+  border: 1px solid rgb(117, 40, 194);
+  border-radius: 6px;
+  text-decoration: none;
+  color: rgb(117, 40, 194);
+  font-weight: bold;
+  text-align: center;
+  transition: .2s;
+}
+
+.paper-link:hover {
+  background: rgb(166, 252, 215);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- HEADER -->
+    <div class="header-container">
+      <a href="index.html">
+        <h1 class="site-title">Liya's Martian Negev</h1>
+      </a>
+    </div>
+
+    <h1>Interactive Negev</h1>
+
+    <p class="instructions">
+      Click on a dot to view papers!
+    </p>
+
+    <div class="map-container">
+
+      <div class="zoom-controls">
+        <button onclick="zoomIn()">+</button>
+        <button onclick="zoomOut()">−</button>
+      </div>
+
+      <div class="map-wrapper" id="mapWrapper">
+
+        <img src="negev-map.png" alt="Negev Map">
+
+        <a href="#tellfara" class="marker" style="top:63%; left:46%;"></a>
+        <div class="label" style="top:63%; left:46%;">Tell Fara</div>
+
+        <a href="#shaharut" class="marker" style="top:89%; left:48.5%;"></a>
+        <div class="label" style="top:89%; left:48.5%;">Nahal Shaharut</div>
+
+      </div>
+    </div>
+
+    <!-- POPUPS -->
+
+<!-- POPUPS -->
+
+<div id="tellfara" class="popup">
+  <a href="#" class="close">✕</a>
+  <h2>Tell Fara</h2>
+  <p>Water Extraction Station</p>
+
+  <h3>Publications:</h3>
+
+  <a class="paper-link" href="paper3.html">Water Extraction from Loess in Tell Fara (Negev Desert) and Martian Soil According to the Five Factors of Soil Formation (CLORPT)</a>
+  <a class="paper-link" href="paper4.html">Low Magnetic Susceptibility Values as a Means of Subsurface Aquifer Detection in Tell Fara (Negev Desert) with Applications to Martian Water</a>
+</div>
+<div class="overlay"></div>
+
+<div id="shaharut" class="popup">
+  <a href="#" class="close">✕</a>
+  <h2>Nahal Shaharut</h2>
+  <p>UV Radiation Station</p>
+
+  <h3>Publications:</h3>
+
+  <a class="paper-link" href="paper1.html">Revolutionizing Martian Construction by Determining the Melanin Concentrations and Growth Patterns of Extremophilic, Filamentous Fungi in Nahal Shaharut (Negev Desert)</a>
+  <a class="paper-link" href="paper2.html">Radiated Aspergillus Niger Acting as a Natural UV Radiation Detector and Transforming Nahal Shaharut (Negev Desert) into a Martian Simulator</a>
+</div>
+<div class="overlay"></div>
+
+  </div>
+</div>
+
+<!-- SIDEBAR (OUTSIDE WRAPPER, SAME AS ANNOUNCEMENTS STRUCTURE) -->
+<div class="sidebar">
+  <a href="index.html">Home</a>
+  <a href="announcements.html">Announcements</a>
+  <a href="papers.html">Papers</a>
+  <a href="interactive-map.html">Interactive Negev</a>
+
+  <p class="sidebar-copyright">© Liya's Martian Negev</p>
+</div>
+
+<script>
+
+let scale = 1;
+let translateX = 0;
+let translateY = 0;
+
+const mapWrapper = document.getElementById("mapWrapper");
+
+/* --- smooth animation targets --- */
+let targetX = 0;
+let targetY = 0;
+let currentX = 0;
+let currentY = 0;
+
+/* render loop (smooth movement) */
+function animate() {
+  currentX += (targetX - currentX) * 0.15;
+  currentY += (targetY - currentY) * 0.15;
+
+  mapWrapper.style.transform =
+    `translate(${currentX}px, ${currentY}px) scale(${scale})`;
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+/* --- zoom --- */
+
+function zoomIn() {
+  scale += 0.1;
+}
+
+function zoomOut() {
+  scale = Math.max(0.5, scale - 0.1);
+}
+
+/* --- dragging --- */
+
+let isDragging = false;
+let startX = 0;
+let startY = 0;
+
+mapWrapper.addEventListener("mousedown", (e) => {
+  isDragging = true;
+  startX = e.clientX - targetX;
+  startY = e.clientY - targetY;
+  mapWrapper.style.cursor = "grabbing";
+});
+
+document.addEventListener("mousemove", (e) => {
+  if (!isDragging) return;
+
+  targetX = e.clientX - startX;
+  targetY = e.clientY - startY;
+});
+
+document.addEventListener("mouseup", () => {
+  isDragging = false;
+  mapWrapper.style.cursor = "grab";
+});
+
+</script>
+
+</body>
+</html>
+
+
