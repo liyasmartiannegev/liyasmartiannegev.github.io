@@ -359,6 +359,30 @@ h1 {
 .map-arrows .right { grid-area: right; }
 
 
+.map-arrows .reset {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.map-arrows .reset button {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 18px;
+
+  background: rgb(117, 40, 194);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.map-arrows .reset button:hover {
+  background: rgb(7, 206, 152);
+}
+
+
 
 </style>
 
@@ -402,6 +426,10 @@ h1 {
 
   <div class="arrow left">
     <button onclick="moveLeft()">←</button>
+  </div>
+
+  <div class="reset">
+    <button onclick="resetMap()">⟳</button>
   </div>
 
   <div class="arrow right">
@@ -562,6 +590,13 @@ function moveUp() {
 function moveDown() {
   if (!canMove()) return;
   state.y -= step;
+  update();
+}
+
+function resetMap() {
+  state.x = 0;
+  state.y = 0;
+  state.scale = 1;
   update();
 }
 
