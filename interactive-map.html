@@ -310,6 +310,54 @@ h1 {
   background: rgb(166, 252, 215);
 }
 
+.map-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: center center;
+  cursor: grab;
+  user-select: none;
+  will-change: transform;
+}
+
+.map-arrows {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 200;
+
+  display: grid;
+  grid-template-areas:
+    ". up ."
+    "left . right"
+    ". down .";
+  gap: 4px;
+}
+
+.map-arrows button {
+  width: 38px;
+  height: 38px;
+  font-size: 18px;
+  cursor: pointer;
+
+  background: rgb(117, 40, 194);
+  color: white;
+  border: none;
+  border-radius: 0px;
+}
+
+.map-arrows button:hover {
+  background: rgb(7, 206, 152);
+}
+
+/* grid placement */
+.map-arrows .up    { grid-area: up; }
+.map-arrows .down  { grid-area: down; }
+.map-arrows .left  { grid-area: left; }
+.map-arrows .right { grid-area: right; }
+
 
 
 </style>
@@ -345,6 +393,26 @@ h1 {
         <button onclick="zoomIn()">+</button>
         <button onclick="zoomOut()">−</button>
       </div>
+
+<div class="map-arrows">
+
+  <div class="arrow up">
+    <button onclick="moveUp()">↑</button>
+  </div>
+
+  <div class="arrow left">
+    <button onclick="moveLeft()">←</button>
+  </div>
+
+  <div class="arrow right">
+    <button onclick="moveRight()">→</button>
+  </div>
+
+  <div class="arrow down">
+    <button onclick="moveDown()">↓</button>
+  </div>
+
+</div>
 
       <div class="map-wrapper" id="mapWrapper">
 
@@ -402,65 +470,100 @@ h1 {
 
 <script>
 
-let scale = 1;
-let translateX = 0;
-let translateY = 0;
-
 const mapWrapper = document.getElementById("mapWrapper");
 
-/* --- smooth animation targets --- */
-let targetX = 0;
-let targetY = 0;
-let currentX = 0;
-let currentY = 0;
+/* =========================
+   STATE
+========================= */
+const state = {
+  x: 0,
+  y: 0,
+  scale: 1
+};
 
-/* render loop (smooth movement) */
-function animate() {
-  currentX += (targetX - currentX) * 0.15;
-  currentY += (targetY - currentY) * 0.15;
+const BASE_SCALE = 1;
+const step = 80;
 
+/* =========================
+   RENDER
+========================= */
+function render() {
   mapWrapper.style.transform =
-    `translate(${currentX}px, ${currentY}px) scale(${scale})`;
-
-  requestAnimationFrame(animate);
+    `translate(${state.x}px, ${state.y}px) scale(${state.scale})`;
 }
 
-animate();
+/* =========================
+   BOUNDING (KEY FIX)
+========================= */
+function clampPan() {
+  const container = document.querySelector(".map-container");
 
-/* --- zoom --- */
+  const containerW = container.clientWidth;
+  const containerH = container.clientHeight;
 
+  const imgW = containerW * state.scale;
+  const imgH = containerH * state.scale;
+
+  const maxX = (imgW - containerW) / 2;
+  const maxY = (imgH - containerH) / 2;
+
+  state.x = Math.max(-maxX, Math.min(maxX, state.x));
+  state.y = Math.max(-maxY, Math.min(maxY, state.y));
+}
+
+/* =========================
+   UPDATE
+========================= */
+function update() {
+  clampPan();
+  render();
+}
+
+update();
+
+/* =========================
+   ZOOM
+========================= */
 function zoomIn() {
-  scale += 0.1;
+  state.scale = Math.min(state.scale + 0.1, 2.5);
+  update();
 }
 
 function zoomOut() {
-  scale = Math.max(0.5, scale - 0.1);
+  state.scale = Math.max(state.scale - 0.1, BASE_SCALE);
+  update();
 }
 
-/* --- dragging --- */
+/* =========================
+   ARROWS (LOCKED UNTIL ZOOMED)
+========================= */
+function canMove() {
+  return state.scale > BASE_SCALE;
+}
 
-let isDragging = false;
-let startX = 0;
-let startY = 0;
+function moveLeft() {
+  if (!canMove()) return;
+  state.x += step;
+  update();
+}
 
-mapWrapper.addEventListener("mousedown", (e) => {
-  isDragging = true;
-  startX = e.clientX - targetX;
-  startY = e.clientY - targetY;
-  mapWrapper.style.cursor = "grabbing";
-});
+function moveRight() {
+  if (!canMove()) return;
+  state.x -= step;
+  update();
+}
 
-document.addEventListener("mousemove", (e) => {
-  if (!isDragging) return;
+function moveUp() {
+  if (!canMove()) return;
+  state.y += step;
+  update();
+}
 
-  targetX = e.clientX - startX;
-  targetY = e.clientY - startY;
-});
-
-document.addEventListener("mouseup", () => {
-  isDragging = false;
-  mapWrapper.style.cursor = "grab";
-});
+function moveDown() {
+  if (!canMove()) return;
+  state.y -= step;
+  update();
+}
 
 </script>
 
