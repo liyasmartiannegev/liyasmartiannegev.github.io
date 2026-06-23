@@ -15,9 +15,6 @@ body {
   background: rgb(209, 255, 235);
 }
 
-/* ========================= */
-/* WRAPPER (KEY FIX) */
-/* ========================= */
 
 .page-wrapper {
   width: 100%;
@@ -29,10 +26,6 @@ body {
 html, body {
   height: 100%;
 }
-
-/* ========================= */
-/* SIDEBAR (NOW BEHAVES LIKE ANNOUNCEMENTS) */
-/* ========================= */
 
 .sidebar {
   position: absolute;
@@ -76,18 +69,12 @@ html, body {
   color: rgb(117, 40, 194);
 }
 
-/* ========================= */
-/* CONTENT */
-/* ========================= */
 
 .content {
   margin-left: 200px;
   padding-bottom: 120px;
 }
 
-/* ========================= */
-/* HEADER (same as announcements) */
-/* ========================= */
 
 .header-container {
   background: white;
@@ -118,25 +105,29 @@ html, body {
   font-weight: bold;
 }
 
-/* ========================= */
-/* TEXT */
-/* ========================= */
 
-h1 {
-  color: rgb(35, 130, 99);
+.map-title {
+  font-family: 'Gabriola', 'Times New Roman', serif;
+  font-size: 64px;
+  color: rgb(130, 70, 255);
+  text-shadow:
+    0 0 4px white,
+    0 0 10px rgb(255,255,255),
+    0 0 15px rgb(255,130,255),
+    0 0 25px rgb(0,255,255);
   margin-bottom: 10px;
 }
 
 .instructions {
   margin-bottom: 25px;
-  color: rgb(117, 40, 194);
+  color: rgb(35, 130, 99);
   font-style: italic;
   font-weight: bold;
+  font-size: 24px;
+  border: 2px dashed rgb(117,40,194);
 }
 
-/* ========================= */
-/* MAP */
-/* ========================= */
+
 
 .map-container {
   position: relative;
@@ -144,8 +135,13 @@ h1 {
   height: 650px;
   margin: auto;
   overflow: hidden;
-  border: 4px double rgb(7, 206, 152);
-  border-radius: 8px;
+  border: 8px solid rgb(255,255,255);
+  box-shadow:
+0 0 10px white,
+0 0 20px rgb(255,130,255),
+0 0 35px rgb(0,255,255);
+  border-radius: 0px;
+  margin-top: 120px;
 }
 
 .map-wrapper {
@@ -173,7 +169,7 @@ h1 {
 
 
 
-/* ZOOM */
+
 
 .zoom-controls {
   position: absolute;
@@ -198,7 +194,7 @@ h1 {
   color: white;
 }
 
-/* MARKERS */
+
 
 .marker {
   position: absolute;
@@ -224,9 +220,7 @@ h1 {
   color: rgb(117, 40, 194);
 }
 
-/* ========================= */
-/* POPUPS */
-/* ========================= */
+
 
 .popup {
   display: none;
@@ -238,7 +232,7 @@ h1 {
   max-width: 90%;
   background: white;
   padding: 30px;
-  border-radius: 12px;
+  border-radius: 0px;
   box-shadow: 0 0 30px rgba(0,0,0,.4);
   z-index: 1000;
   text-align: left;
@@ -297,7 +291,7 @@ h1 {
   padding: 12px;
   background: rgb(232, 229, 255);
   border: 1px solid rgb(117, 40, 194);
-  border-radius: 6px;
+  border-radius: 0px;
   text-decoration: none;
   color: rgb(117, 40, 194);
   font-weight: bold;
@@ -351,7 +345,7 @@ h1 {
   background: rgb(7, 206, 152);
 }
 
-/* grid placement */
+
 .map-arrows .up    { grid-area: up; }
 .map-arrows .down  { grid-area: down; }
 .map-arrows .left  { grid-area: left; }
@@ -415,17 +409,17 @@ body {
   <p class="sidebar-copyright">© Liya's Martian Negev</p>
 </div>
 
-  <!-- CONTENT -->
+
   <div class="content">
 
-    <!-- HEADER -->
+  
     <div class="header-container">
       <a href="index.html">
         <h1 class="site-title">Liya's Martian Negev</h1>
       </a>
     </div>
 
-    <h1>Interactive Negev</h1>
+    <h1 class="map-title">Interactive Negev</h1>
 
     <p class="instructions">
       Click on a dot to view my station-specific papers!
@@ -475,9 +469,7 @@ body {
       </div>
     </div>
 
-    <!-- POPUPS -->
 
-<!-- POPUPS -->
 
 <div id="tellfara" class="popup">
   <a href="#" class="close">✕</a>
@@ -506,16 +498,14 @@ body {
   </div>
 </div>
 
-<!-- SIDEBAR (OUTSIDE WRAPPER, SAME AS ANNOUNCEMENTS STRUCTURE) -->
+
 
 
 <script>
 
 const mapWrapper = document.getElementById("mapWrapper");
 
-/* =========================
-   STATE
-========================= */
+
 const state = {
   x: 0,
   y: 0,
@@ -525,17 +515,13 @@ const state = {
 const BASE_SCALE = 1;
 const step = 80;
 
-/* =========================
-   RENDER
-========================= */
+
 function render() {
   mapWrapper.style.transform =
     `translate(${state.x}px, ${state.y}px) scale(${state.scale})`;
 }
 
-/* =========================
-   BOUNDING (KEY FIX)
-========================= */
+
 function clampPan() {
   const container = document.querySelector(".map-container");
 
@@ -552,9 +538,7 @@ function clampPan() {
   state.y = Math.max(-maxY, Math.min(maxY, state.y));
 }
 
-/* =========================
-   UPDATE
-========================= */
+
 function update() {
   clampPan();
   render();
@@ -562,9 +546,7 @@ function update() {
 
 update();
 
-/* =========================
-   ZOOM
-========================= */
+
 function zoomIn() {
   state.scale = Math.min(state.scale + 0.1, 2.5);
   update();
@@ -575,9 +557,7 @@ function zoomOut() {
   update();
 }
 
-/* =========================
-   ARROWS (LOCKED UNTIL ZOOMED)
-========================= */
+
 function canMove() {
   return state.scale > BASE_SCALE;
 }
