@@ -12,7 +12,7 @@ body {
   margin: 0;
   padding: 0;
   text-align: center;
-  background: rgb(209, 255, 235);
+  background: rgb(225, 255, 242);
 }
 
 
@@ -107,15 +107,43 @@ html, body {
 
 
 .map-title {
-  font-family: 'Gabriola', 'Times New Roman', serif;
-  font-size: 64px;
-  color: rgb(130, 70, 255);
+
+  display: inline-block;
+
+  padding: 14px 60px;
+
+  font-size: 76px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgb(255,255,255),
+      rgb(240,255,250) 10%,
+      rgb(7,206,152) 45%,
+      rgb(117,40,194)
+    );
+
+  border:
+    10px groove rgb(117,40,194);
+
+  box-shadow:
+    inset 0 3px 0 rgb(255,255,255),
+    inset 0 -6px 0 rgba(0,0,0,.25),
+    inset 6px 0 0 rgba(255,255,255,.4),
+    inset -6px 0 0 rgba(0,0,0,.15),
+
+    0 0 0 5px rgb(7,206,152),
+    0 0 0 10px rgb(117,40,194);
+
   text-shadow:
-    0 0 4px white,
-    0 0 10px rgb(255,255,255),
-    0 0 15px rgb(255,130,255),
-    0 0 25px rgb(0,255,255);
-  margin-bottom: 10px;
+    2px 2px 0 rgb(117,40,194),
+    3px 3px 0 rgb(117,40,194),
+    4px 4px 0 rgba(0,0,0,.25);
+
+  letter-spacing: 2px;
+
 }
 
 .instructions {
@@ -123,7 +151,8 @@ html, body {
   color: rgb(35, 130, 99);
   font-style: italic;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 28px;
+  margin-top: 0px;
   border: 2px dashed rgb(117,40,194);
 }
 
@@ -137,11 +166,13 @@ html, body {
   overflow: hidden;
   border: 8px solid rgb(255,255,255);
   box-shadow:
-0 0 10px white,
-0 0 20px rgb(255,130,255),
-0 0 35px rgb(0,255,255);
+    0 0 10px white,
+    0 0 20px rgb(117,40,194),
+    0 0 40px rgb(117,40,194),
+    0 0 60px rgb(7,206,152),
+    0 0 90px rgb(7,206,152);
   border-radius: 0px;
-  margin-top: 120px;
+  margin-top: 80px;
 }
 
 .map-wrapper {
@@ -387,6 +418,49 @@ body {
   min-height: 100vh;
 }
 
+.map-container.expanded {
+  position: absolute;
+  top: 60px;
+  left: 220px;
+  width: calc(100% - 260px);
+  height: 630px;
+  max-width: none;
+  z-index: 999;
+  background: white;
+}
+
+.map-close {
+  display: none; /* hidden by default */
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2000;
+
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+
+  background: rgb(117, 40, 194);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.map-container.expanded .map-close {
+  display: block;
+}
+
+.map-overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 200px;
+  width: calc(100% - 200px);
+  height: 100vh;
+  background: rgba(0,0,0,0.35);
+  z-index: 900;
+}
+
 
 
 </style>
@@ -397,6 +471,8 @@ body {
 </head>
 
 <body>
+
+<div class="map-overlay"></div>
 
 <div class="page-wrapper">
 
@@ -426,6 +502,7 @@ body {
     </p>
 
     <div class="map-container">
+  <button class="map-close" onclick="collapseMap()">✕</button>
 
       <div class="zoom-controls">
         <button onclick="zoomIn()">+</button>
@@ -593,7 +670,40 @@ function resetMap() {
   update();
 }
 
+const container = document.querySelector(".map-container");
+const overlay = document.querySelector(".map-overlay");
+const closeBtn = document.querySelector(".map-close");
+
+container.addEventListener("click", function (e) {
+  if (
+    e.target.closest(".map-close") ||
+    e.target.closest(".map-arrows") ||
+    e.target.closest(".zoom-controls")
+  ) {
+    return;
+  }
+
+  container.classList.add("expanded");
+  overlay.style.display = "block";
+});
+
+function collapseMap() {
+  container.classList.remove("expanded");
+  overlay.style.display = "none";
+}
+
+// X button (clean + guaranteed working)
+closeBtn.addEventListener("click", function (e) {
+  e.stopPropagation();
+  collapseMap();
+});
+
+overlay.addEventListener("click", collapseMap);
+
+
 </script>
+
+
 
 </body>
 </html>
