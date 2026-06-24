@@ -229,13 +229,26 @@ html, body {
 
 .marker {
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 14px;
+  height: 14px;
   background: rgb(117, 40, 194);
   border-radius: 50%;
   transform: translate(-50%, -50%);
   cursor: pointer;
-  transition: .3s;
+
+  box-shadow:
+    0 0 0 8px rgba(117, 40, 194, 0.25),
+    0 0 12px rgba(117, 40, 194, 0.5);
+}
+
+.marker::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  transform: translate(-50%, -50%);
 }
 
 .marker:hover {
