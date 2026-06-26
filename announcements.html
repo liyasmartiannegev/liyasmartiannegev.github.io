@@ -7,15 +7,14 @@
       color: rgb(35, 130, 99);
       text-align: center;
       margin: 0;
-      background: radial-gradient(circle, rgba(174, 0, 255, 0.25) 10%, rgba(0, 255, 162, 0.155) 35%, rgba(7, 206, 153, 0.113) 60%, rgba(0, 0, 0, 0) 100%), 
-                  radial-gradient(circle, rgba(0, 255, 255, 0.189) 0%, rgba(150, 81, 234, 0.255) 50%, rgba(255, 255, 255, 0.2) 80%);
+      background: rgb(225, 255, 242);
     }
 
     .page-wrapper {
       width: 100%;
       min-height: 100vh; 
       position: relative;
-      background: radial-gradient(circle, rgba(156, 45, 230, 0.527), rgba(7, 206, 152, 0.2));
+      background: rgb(225, 255, 242);
     }
 
     .copyright {
@@ -43,7 +42,11 @@
       background: linear-gradient(45deg, rgb(150, 81, 234), rgb(7, 206, 152)); 
       -webkit-background-clip: text; 
       background-clip: text;
-      text-shadow: 0 0 10px rgba(0, 255, 255, 0.8), 0 0 15px rgba(0, 255, 255, 0.9);
+      text-shadow:
+  0 0 8px rgb(117, 40, 194),
+  0 0 16px rgb(117, 40, 194),
+  0 0 28px rgb(117, 40, 194),
+  2px 2px 4px rgba(70, 0, 130, 0.6);
     }
 
     .header-container {
@@ -105,8 +108,6 @@
       background: rgb(166, 252, 215);
     }
 
-
-
     .sidebar-copyright {
   position: absolute;
   bottom: 10px;
@@ -115,7 +116,6 @@
   font-size: 10px;
   color: rgb(117, 40, 194);
 }
-
 
 .announcements-section {
   padding: 20px;
@@ -214,13 +214,13 @@
     }
 
 .subscribe-box {
-  background: rgb(148, 64, 250);
-  color: rgb(130, 255, 224);
+  background: rgba(82, 14, 255, 0.664);
+  color: rgb(32, 255, 196);  
   padding: 20px;
   text-align: center;
   font-size: 28px;
   margin: 20px auto; 
-  border-radius: 10px;
+  border-radius: 0px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: calc(100% - 240px); 
   box-sizing: border-box;
@@ -231,33 +231,35 @@
       padding: 10px;
       margin-top: 10px;
       font-size: 16px;
+      font-family: Gabriola, "Times New Roman", serif;
       width: 250px;
-      border-radius: 5px;
+      border-radius: 0px;
       border: 1px solid rgb(35, 130, 99);
     }
 
     .subscribe-box button {
       padding: 10px 20px;
       margin-top: 10px;
-      background-color: rgb(9, 188, 140);
+      background-color: rgb(227, 97, 252); 
+      font-family: Gabriola, "Times New Roman", serif;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 0px;
       font-size: 16px;
       cursor: pointer;
     }
 
     .subscribe-box button:hover {
-      background-color: rgb(35, 130, 99);
+      background-color:rgb(200, 53, 245);
     }
 
     .subscribe-count {
       font-size: 36px; 
       font-weight: bold; 
       color: rgb(148, 45, 251); 
-      background: rgb(11, 240, 179); 
+      background: rgb(78, 250, 204); 
       padding: 20px;
-      border-radius: 10px;
+      border-radius: 0px;
       width: 280px;
       margin-top: 20px;
       margin-left: 20px;
@@ -265,6 +267,8 @@
       display: inline-block;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
     }
+
+
 
   </style>
   <link rel="icon" href="LMNlogo.png" sizes="32x32" type="image/png">
