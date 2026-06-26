@@ -143,6 +143,9 @@ text-shadow:
 
 letter-spacing:3px;
 transform: perspective(650px) rotateX(11deg);
+
+cursor: pointer;
+user-select: none;
 }
 
 .instructions {
@@ -436,6 +439,7 @@ body {
   width: calc(100vw - 260px);
   max-width: none;
   height: 630px;
+  z-index: 1000;
 
 .map-wrapper {
   position: absolute;
@@ -479,10 +483,10 @@ body {
 
 .map-overlay {
   display: none;
-  position: absolute;
+  position: fixed;
   top: 0;
-  left: 200px;
-  width: calc(100% - 200px);
+  left: 0;
+  width: 100vw;
   height: 100vh;
   background: rgba(255, 255, 255, 0.15);
   z-index: 900;
@@ -703,31 +707,39 @@ const container = document.querySelector(".map-container");
 const overlay = document.querySelector(".map-overlay");
 const closeBtn = document.querySelector(".map-close");
 
+const mapTitle = document.querySelector(".map-title");
+
+mapTitle.addEventListener("click", openMap);
+
 container.addEventListener("click", function (e) {
+  if (container.classList.contains("expanded")) return;
+
   if (
-    e.target.closest(".map-close") ||
     e.target.closest(".map-arrows") ||
-    e.target.closest(".zoom-controls")
+    e.target.closest(".zoom-controls") ||
+    e.target.closest(".map-close")
   ) {
     return;
   }
 
+  openMap();
+});
+
+function openMap() {
   container.classList.add("expanded");
   overlay.style.display = "block";
-});
+}
 
 function collapseMap() {
   container.classList.remove("expanded");
   overlay.style.display = "none";
 }
 
-// X button (clean + guaranteed working)
+overlay.addEventListener("click", collapseMap);
 closeBtn.addEventListener("click", function (e) {
   e.stopPropagation();
   collapseMap();
 });
-
-overlay.addEventListener("click", collapseMap);
 
 
 </script>
