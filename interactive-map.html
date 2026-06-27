@@ -545,6 +545,17 @@ body {
   display: block;
 }
 
+.map-text {
+    position: absolute;
+    top: 200px;
+    right: 780px;
+    width: 250px;
+      color: rgb(35, 130, 99);
+  font-style: italic;
+  font-weight: bold;
+    font-size: 28px;
+}
+
 
 
 </style>
@@ -582,7 +593,7 @@ body {
     <h1 class="map-title">Enter the Negev</h1>
 
     <p class="instructions">
-      Click to view my station-specific papers!
+      Click to enter!
     </p>
 
     <div class="map-container">
@@ -620,6 +631,10 @@ body {
       <div class="map-wrapper" id="mapWrapper">
 
         <img src="negev-map.png" alt="Negev Map">
+
+        <div class="map-text">
+    Click on a dot to view my station-specific papers!
+</div>
 
         <a href="#tellfara" class="marker" style="top:62.5%; left:45%;"></a>
         <div class="label" style="top:62.5%; left:45%;">Tell Fara</div>
