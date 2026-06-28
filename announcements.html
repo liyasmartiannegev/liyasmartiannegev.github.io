@@ -284,7 +284,7 @@
       </div>
 
       <div class="subscribe-box">
-        <h2>Subscribe to LMN!</h2>
+        <h2>Subscribe to recieve announcements directly!</h2>
         <input type="email" id="email" placeholder="Enter your email">
         <button id="subscribe-btn">Subscribe</button>
         <div class="subscribe-count" id="subscriber-count">Subscribers: 0</div>
@@ -334,7 +334,7 @@ const announcementBoxes = document.querySelectorAll('.announcement-box');
 const subscribeBtn = document.getElementById('subscribe-btn');
 const subscriberCount = document.getElementById('subscriber-count');
 
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby9zqd0sAlzvdPEUlk6fTuPTAYQQ7VslehG3IbZfhKhTg7RpBeTJ6eql1g007Dnp1UU/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxXlMqutSAZIes_tJVYo7gXwggd_A9-t0ug9a44X27Nut3gbf606i2h8TqUSe1HOHm5/exec";
 
 let cachedCount = localStorage.getItem("subscriberCount");
 subscriberCount.textContent = cachedCount ? `Subscribers: ${cachedCount}` : "Subscribers: loading…";
