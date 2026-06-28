@@ -415,10 +415,13 @@ subscribeBtn.addEventListener('click', async () => {
       return;
     }
 
-    await fetch(SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify({ email: email })
-    });
+await fetch(SCRIPT_URL, {
+  method: "POST",
+  body: JSON.stringify({
+    type: "subscribe",
+    email: email
+  })
+});
 
     await loadSubscriberCount();
 
@@ -430,6 +433,7 @@ subscribeBtn.addEventListener('click', async () => {
     alert("Something went wrong. Please try again later.");
   }
 });
+
 </script>
 </body>
 </html>
