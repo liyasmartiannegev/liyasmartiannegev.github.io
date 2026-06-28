@@ -107,55 +107,39 @@ html, body {
 
 
 .map-title{
-display:inline-block;
-position:relative;
-padding:18px 74px;
-font-size:82px;
-font-weight:900;
-color:#f7fffd;
-letter-spacing:3px;
-cursor:pointer;
-user-select:none;
+  display:inline-block;
+  position:relative;
+  padding:18px 74px;
+  font-size:82px;
+  font-weight:900;
+  color:#f7fffd;
+  letter-spacing:3px;
+  cursor:pointer;
+  user-select:none;
 
-transform: perspective(650px) rotateX(11deg);
+  transform: perspective(650px) rotateX(11deg);
 
-background:
-radial-gradient(circle at 50% 50%,
-rgba(255,255,255,.25) 0%,
-rgba(0,255,213,.15) 20%,
-rgba(117,40,194,.25) 45%,
-rgba(0,0,0,.85) 85%),
+  background:
+    radial-gradient(circle at 20% 30%, #8a5bff 0%, transparent 45%),
+    radial-gradient(circle at 70% 25%, #3aa8ff 0%, transparent 50%),
+    radial-gradient(circle at 40% 70%, #63ffb4 0%, transparent 55%),
+    radial-gradient(circle at 80% 70%, #2fffe1 0%, transparent 50%),
+    radial-gradient(circle at 55% 50%, #a855ff 0%, transparent 60%),
+    linear-gradient(135deg, #7b3dff, #2f7bff, #00ffb3, #1cc8ff, #c15bff);
 
-conic-gradient(
-from 0deg,
-#00ffd5,
-#00ff88,
-#ffffff,
-#ff66ff,
-#7528c2,
-#00ffee,
-#00ffd5
-);
+  box-shadow:
+    0 0 80px rgba(90,255,220,.65),
+    0 0 160px rgba(80,200,255,.55),
+    0 0 260px rgba(180,90,255,.4),
+    0 0 420px rgba(60,220,255,.25),
+    inset 0 0 50px rgba(0,0,0,.35);
 
-background-blend-mode: screen;
-
-box-shadow:
-0 0 0 2px rgba(255,255,255,.18),
-0 0 35px rgba(0,255,220,.65),
-0 0 90px rgba(117,40,194,.75),
-0 0 140px rgba(255,102,255,.35),
-
-inset 0 0 30px rgba(255,255,255,.18),
-inset 0 0 90px rgba(0,0,0,.75),
-inset 0 0 120px rgba(0,255,213,.18);
-
-text-shadow:
-0 0 10px #07ce98,
-0 0 25px #07ce98,
-0 0 45px #7528c2,
-0 0 70px rgba(255,102,255,.35),
-0 0 90px rgba(0,255,220,.25),
-2px 2px 0 #000;
+  text-shadow:
+    0 0 40px rgba(160,90,255,.8),
+    0 0 100px rgba(80,200,255,.75),
+    0 0 180px rgba(80,255,200,.6),
+    0 0 260px rgba(180,90,255,.35),
+    2px 2px 0 #000;
 }
 
 .map-title {
