@@ -268,6 +268,73 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
     }
 
+.announcement-link {
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.announcement-link a {
+  color: rgb(117, 40, 194);
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: 22px;
+}
+
+.announcement-link a:hover {
+  color: rgb(7, 206, 152);
+}
+
+.announcement-box:not(.expanded) .announcement-link {
+  display: none;
+}
+
+.announcement-images {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.announcement-images img {
+  max-width: 90%;
+  height: auto;
+  margin: 10px 0;
+  border: 3px solid rgb(117, 40, 194);
+}
+
+.announcement-images {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.announcement-images img {
+  max-width: 90%;
+  height: auto;
+  margin: 10px 0;
+}
+
+
+.announcement-images {
+  display: none;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.announcement-box.expanded .announcement-images {
+  display: block;
+}
+
+.announcement-images img {
+  display: block;
+  margin: 10px auto;
+  max-width: 90%;
+  max-height: 500px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+
+
 
 
   </style>
@@ -292,6 +359,29 @@
 
       <div class="announcements-section">
         <h2>LMN News!</h2>
+
+<div class="announcement-box">
+  <div class="announcement-date">June 20, 2026</div>
+
+  <div class="announcement-content">
+    <h3>Loess Letters- Dr. Ian Smalley</h3>
+
+<p>
+Hi LMN users! As I stated in my previous announcement, I recently published a pair of papers regarding loess in Tell Fara (found in the "Papers" tab to the right). While working on these papers, I found a very insightful series of documents called the "Loess letters" written by Dr. Ian Smalley, hosted on Michigan State University's website archive. The content is fantastic, but the loess art in the letters was absolutely beautiful, and my favorite drawings from letters 50 and 51 are below. The link to the letters is attached, they are very well done and I hope you all enjoy!
+</p>
+
+<div class="announcement-link">
+  <a href="https://loessletter.msu.edu/" target="_blank">
+    https://loessletter.msu.edu/
+  </a>
+</div>
+
+<div class="announcement-images">
+  <img src="loessdrawing.png" alt="Loess drawing">
+</div>
+
+  </div>
+</div>
 
         <div class="announcement-box">
           <div class="announcement-date">June 20, 2026</div>
