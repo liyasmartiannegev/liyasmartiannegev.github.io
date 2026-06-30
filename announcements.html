@@ -527,7 +527,7 @@ async function loadSubscriberCount() {
 
   } catch (err) {
     console.error("Failed to load subscriber count:", err);
-    subscriberCount.textContent = "Subscribers: ?";
+    subscriberCount.textContent = "Subscribers: loading...";
     return [];
   }
 }
@@ -594,7 +594,7 @@ await fetch(SCRIPT_URL, {
     emailInput.value = '';
     showPopup(
     "Thank You!",
-    "Welcome to LMN! Future announcements will be sent directly to your inbox."
+    "Welcome LMN user! Future announcements will be sent directly to you."
 );
 
   } catch (err) {
