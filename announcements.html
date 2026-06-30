@@ -214,17 +214,19 @@
     }
 
 .subscribe-box {
-  background: rgba(82, 14, 255, 0.664);
-  color: rgb(32, 255, 196);  
+  background: rgb(144, 95, 243);
+  color: rgb(32, 255, 196);
   padding: 20px;
   text-align: center;
   font-size: 28px;
-  margin: 20px auto; 
-  border-radius: 0px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: calc(100% - 240px); 
+  margin: 20px auto;
+  width: calc(100% - 240px);
   box-sizing: border-box;
-  box-shadow: 0 0 20px rgba(14, 222, 166, 0.7), 0 0 40px rgba(108, 254, 223, 0.5);
+  box-shadow:
+      0 0 20px rgba(14,222,166,.7),
+      0 0 40px rgba(108,254,223,.5);
+  position: relative;
+  min-height: 190px;
 }
 
     .subscribe-box input[type="email"] {
@@ -333,6 +335,62 @@
   object-fit: contain;
 }
 
+.subscribe-popup {
+  position: absolute;
+  inset: 0;
+  display: none;
+
+  background: rgb(144, 95, 243);
+  border: 5px double rgb(32,255,196);
+
+  box-sizing: border-box;
+  padding: 35px;
+
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  text-align: center;
+}
+
+.subscribe-popup.show {
+  display: flex;
+}
+
+.subscribe-popup h3 {
+  margin: 0 0 15px 0;
+
+  color: rgb(32,255,196);
+  font-size: 54px;
+  font-family: Gabriola, "Times New Roman", serif;
+}
+
+.subscribe-popup p {
+  margin: 0;
+
+  color: white;
+  font-size: 30px;
+  font-family: Gabriola, "Times New Roman", serif;
+}
+
+.popup-close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+
+  background: none;
+  border: none;
+
+  color: rgb(32,255,196);
+
+  font-size: 42px;
+  cursor: pointer;
+}
+
+.popup-close:hover {
+  color: white;
+}
+
 
 
 
@@ -354,6 +412,15 @@
         <h2>Subscribe to recieve announcements directly!</h2>
         <input type="email" id="email" placeholder="Enter your email">
         <button id="subscribe-btn">Subscribe</button>
+        <div id="subscribe-popup" class="subscribe-popup">
+
+    <button id="popup-close" class="popup-close">&times;</button>
+
+    <h3 id="popup-title"></h3>
+
+    <p id="popup-message"></p>
+
+</div>
         <div class="subscribe-count" id="subscriber-count">Subscribers: 0</div>
       </div>
 
@@ -424,6 +491,23 @@ const announcementBoxes = document.querySelectorAll('.announcement-box');
 const subscribeBtn = document.getElementById('subscribe-btn');
 const subscriberCount = document.getElementById('subscriber-count');
 
+const popup = document.getElementById("subscribe-popup");
+const popupTitle = document.getElementById("popup-title");
+const popupMessage = document.getElementById("popup-message");
+const popupClose = document.getElementById("popup-close");
+
+function showPopup(title, message) {
+    popupTitle.textContent = title;
+    popupMessage.textContent = message;
+    popup.classList.add("show");
+}
+
+popupClose.addEventListener("click", () => {
+    popup.classList.remove("show");
+    popupTitle.textContent = "";
+    popupMessage.textContent = "";
+});
+
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby9zqd0sAlzvdPEUlk6fTuPTAYQQ7VslehG3IbZfhKhTg7RpBeTJ6eql1g007Dnp1UU/exec";
 
 let cachedCount = localStorage.getItem("subscriberCount");
@@ -449,7 +533,9 @@ async function loadSubscriberCount() {
 }
 
 
-loadSubscriberCount();
+window.addEventListener("load", () => {
+  setTimeout(loadSubscriberCount, 800);
+});
 
 announcementBoxes.forEach(box => {
   const closeButton = document.createElement('button');
@@ -460,50 +546,37 @@ announcementBoxes.forEach(box => {
   box.addEventListener('click', function() {
     if (!this.classList.contains('expanded')) {
       this.classList.add('expanded');
-      // ONLY adjust this box
-      const subscribeBox = document.querySelector('.subscribe-box');
-      this.style.top = `${subscribeBox.offsetTop}px`;
+
     }
   });
 
   closeButton.addEventListener('click', function(event) {
     event.stopPropagation();
     box.classList.remove('expanded');
-    // Reset top when collapsing
+   
     box.style.top = '';
   });
 });
 
 
-window.addEventListener('resize', () => {
-  const subscribeBox = document.querySelector('.subscribe-box');
-  const expandedBoxes = document.querySelectorAll('.announcement-box.expanded');
-  expandedBoxes.forEach(box => {
-    box.style.top = `${subscribeBox.offsetTop}px`;
-  });
-});
 
 subscribeBtn.addEventListener('click', async () => {
   const emailInput = document.getElementById('email');
   const email = emailInput.value.trim().toLowerCase();
 
   if (!email) {
-    alert("Please enter email");
+    showPopup(
+    "Subscription",
+    "Please enter an email address."
+);
     return;
   }
 
   try {
-    const existingData = await loadSubscriberCount();
+showPopup("Processing...", "");
+await new Promise(requestAnimationFrame);
 
-    const existingEmails = existingData.map(row => {
-      if (typeof row === "string") return row.toLowerCase();
-      return Object.values(row)[0]?.toLowerCase();
-    });
 
-    if (existingEmails.includes(email)) {
-      alert("This email is already subscribed.");
-      return;
-    }
 
 await fetch(SCRIPT_URL, {
   method: "POST",
@@ -517,14 +590,19 @@ await fetch(SCRIPT_URL, {
   })
 });
 
-    await loadSubscriberCount();
 
     emailInput.value = '';
-    alert("Thank you for subscribing!");
+    showPopup(
+    "Thank You!",
+    "Welcome to LMN! Future announcements will be sent directly to your inbox."
+);
 
   } catch (err) {
     console.error("Subscription failed:", err);
-    alert("Something went wrong. Please try again later.");
+    showPopup(
+    "Subscription Failed",
+    "Something went wrong. Please try again later."
+);
   }
 });
 
