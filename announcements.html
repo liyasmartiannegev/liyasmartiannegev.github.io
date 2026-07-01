@@ -398,7 +398,7 @@
     left: 10px;
     right: 10px;
     width: auto;
-    height: 75vh;
+    height: 50vh;
     padding: 20px;
     overflow-y: auto;
     box-sizing: border-box;
@@ -551,25 +551,36 @@ window.addEventListener("load", () => {
   setTimeout(loadSubscriberCount, 800);
 });
 
-announcementBoxes.forEach(box => {
+function closeAllBoxes() {
+  document.querySelectorAll('.announcement-box').forEach(box => {
+    box.classList.remove('expanded');
+    box.style.top = '';
+  });
+}
+
+document.querySelectorAll('.announcement-box').forEach(box => {
   const closeButton = document.createElement('button');
   closeButton.textContent = '×';
   closeButton.classList.add('close-btn');
   box.appendChild(closeButton);
 
-  box.addEventListener('click', function() {
-    if (!this.classList.contains('expanded')) {
-      this.classList.add('expanded');
-
-    }
+  box.addEventListener('click', function () {
+    const isOpen = this.classList.contains('expanded');
+    closeAllBoxes();
+    if (!isOpen) this.classList.add('expanded');
   });
 
-  closeButton.addEventListener('click', function(event) {
+  closeButton.addEventListener('click', function (event) {
     event.stopPropagation();
     box.classList.remove('expanded');
-   
     box.style.top = '';
   });
+});
+
+document.addEventListener('click', function (event) {
+  if (!event.target.closest('.announcement-box')) {
+    closeAllBoxes();
+  }
 });
 
 
