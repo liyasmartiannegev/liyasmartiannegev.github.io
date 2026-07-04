@@ -578,22 +578,14 @@ color: #666;
 }
 
 
-img {
-  display: block;
-  margin: 0 auto;
-  width: 80%;
-  max-width: 800px;
-  height: auto;
-  margin-top: 140px;
-  border: solid 4px rgb(117,40,194);
-}
 
 
 .image-container {
     position: relative;
-    width: 80%;
-    max-width: 800px;
+    width: 92%;
+    max-width:1200px;
     margin: 140px auto 0;
+    display: block;
 }
 
 .image-container img {
@@ -601,7 +593,15 @@ img {
     width: 100%;
     height: auto;
     margin: 0;
-    border: solid 4px rgb(117,40,194);
+
+    border: 3px dashed rgb(117,40,194);
+    padding: 6px;
+    background: white;
+    box-sizing: border-box;
+
+    box-shadow:
+        0 0 0 4px white,
+        0 0 0 7px rgb(117,40,194);
 }
 
 .image-text {
