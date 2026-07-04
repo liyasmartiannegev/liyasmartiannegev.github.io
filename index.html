@@ -52,7 +52,13 @@
 
 
 
-<img src="terraformed-negev-mars.png" alt="terraformation diagram">
+<div class="image-container">
+    <img src="terraformed-negev-mars.png" alt="terraformation diagram">
+
+    <div class="image-text">
+        Turning the Negev into Mars turns Mars into Earth!
+    </div>
+</div>
 
 
 
@@ -580,6 +586,38 @@ img {
   height: auto;
   margin-top: 140px;
   border: solid 4px rgb(117,40,194);
+}
+
+
+.image-container {
+    position: relative;
+    width: 80%;
+    max-width: 800px;
+    margin: 140px auto 0;
+}
+
+.image-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    border: solid 4px rgb(117,40,194);
+}
+
+.image-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 300px;   
+
+    color: rgb(35, 130, 99);
+    font-style: italic;
+    font-weight: bold;
+    font-size: 32px;
+    text-align: center;
+    line-height: 1.2;
 }
 
 
