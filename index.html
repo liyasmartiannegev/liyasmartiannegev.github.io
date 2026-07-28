@@ -29,14 +29,34 @@
 <div class="header-line"></div>
 </div>
 
-
-
-
-
-
+<div class="homepage-top-row">
 
 <h1 class="homepage-title">Welcome to my blog!</h1>
 
+<div class="subscribe-box">
+  <h2>Subscribe to LMN!</h2>
+  <input type="email" id="email" placeholder="Enter your email">
+  <button id="subscribe-btn">Subscribe</button>
+
+  <div id="subscribe-popup" class="subscribe-popup">
+
+    <button id="popup-close" class="popup-close">&times;</button>
+
+    <h3 id="popup-title"></h3>
+
+    <p id="popup-message"></p>
+
+  </div>
+
+  <div class="subscribe-count" id="subscriber-count">Subscribers: 0</div>
+</div>
+
+
+
+
+
+
+</div>
 
 
 
@@ -142,28 +162,32 @@ body {
 
 
 
-
+.homepage-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 
 
 
 .homepage-title {
   text-align: center;
-  margin-top: 72px;
-  font-size: 56px;
+  font-size: 79px;
   font-family: 'Times New Roman', 'Gabriola', serif;
   font-weight: bold;
   color: rgb(35, 130, 99);
-
   font-style: italic;
   position: relative;
-  display: block; 
-  margin-left: auto;
-  margin-right: auto; 
+  display: block;
+  width: 50%;
+  box-sizing: border-box;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 60px;
   margin-bottom: 72px;
   padding: 0 20px;
-  width: fit-content; 
-  z-index: 2; 
+  z-index: 2;
 }
 
 .homepage-title::before, .homepage-title::after {
@@ -206,7 +230,7 @@ body {
   color:rgb(117,40,194);
   text-align:left;
   margin:20px auto 40px;
-  margin-top:-40px;
+  margin-top:40px;
   font-weight:bold;
   font-family: 'Times New Roman', 'Gabriola', serif;
 
@@ -536,7 +560,7 @@ color: #666;
     position: relative;
     min-height: 100vh;
     padding-left: 200px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 20px rgb(0, 255, 221);
 }
 
 
@@ -678,6 +702,140 @@ color: #666;
     text-align: left;
 }
 
+.subscribe-box {
+  background: rgb(232,229,255);
+  color: rgb(117,40,194);
+
+  padding: 20px;
+
+  width: 50%;
+
+  box-sizing: border-box;
+
+  border: 2.5px dashed rgb(117,40,194);
+
+  box-shadow:
+      0 0 0 4px rgb(232,229,255),
+      0 0 0 7px rgb(117,40,194);
+
+  position: relative;
+
+margin-left: 0;
+margin-right: 30px;
+margin-top: 30px;
+margin-right: 36px;
+
+  font-family: 'Times New Roman', 'Gabriola', serif;
+  font-weight: bold;
+
+  z-index: 5;
+}
+
+.subscribe-box input[type="email"] {
+  width: 220px;
+  padding: 8px;
+
+  font-family: 'Times New Roman', 'Gabriola', serif;
+
+  border: 2px solid rgb(35,130,99);
+
+  background: white;
+
+  color: rgb(117,40,194);
+  
+  margin-left: 20px;
+
+  font-weight: bold;
+}
+
+.subscribe-box button {
+  padding: 8px 15px;
+
+  margin-top: 10px;
+
+  background: rgb(166,252,215);
+
+  color: rgb(117,40,194);
+
+  border: 2px solid rgb(35,130,99);
+
+  font-family: 'Times New Roman', 'Gabriola', serif;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.subscribe-box button:hover {
+  background-color: rgb(200, 53, 245);
+}
+
+.subscribe-box h2 {
+  font-size: 40px;
+  color: rgb(35,130,99);
+  font-style: italic;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.subscribe-count {
+  font-size: 30px;
+  font-weight: bold;
+  color: rgb(35,130,99);
+  padding: 15px;
+  width: 240px;
+  margin-top: 20px;
+  display: inline-block;
+  text-align: center;
+  margin-left: 40px;
+}
+
+.subscribe-popup {
+  position: absolute;
+  inset: 0;
+  display: none;
+  background: rgb(232, 229, 255);
+  box-sizing: border-box;
+  padding: 35px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.subscribe-popup.show {
+  display: flex;
+}
+
+.subscribe-popup h3 {
+  margin: 0 0 15px 0;
+  color: rgb(117,40,194);
+  font-size: 40px;
+  font-family: 'Times New Roman', 'Gabriola', serif;
+}
+
+.subscribe-popup p {
+  margin: 0;
+  color: white;
+  font-size: 24px;
+  font-family: 'Times New Roman', 'Gabriola', serif;
+}
+
+.popup-close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: rgb(117,40,194);
+  font-size: 42px;
+  cursor: pointer;
+}
+
+.popup-close:hover {
+  color: white;
+}
+
 
 
 
@@ -700,7 +858,90 @@ color: #666;
 
 
 
+<script>
+const subscribeBtn = document.getElementById('subscribe-btn');
+const subscriberCount = document.getElementById('subscriber-count');
 
+const popup = document.getElementById("subscribe-popup");
+const popupTitle = document.getElementById("popup-title");
+const popupMessage = document.getElementById("popup-message");
+const popupClose = document.getElementById("popup-close");
+
+function showPopup(title, message) {
+    popupTitle.textContent = title;
+    popupMessage.textContent = message;
+    popup.classList.add("show");
+}
+
+popupClose.addEventListener("click", () => {
+    popup.classList.remove("show");
+    popupTitle.textContent = "";
+    popupMessage.textContent = "";
+});
+
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby9zqd0sAlzvdPEUlk6fTuPTAYQQ7VslehG3IbZfhKhTg7RpBeTJ6eql1g007Dnp1UU/exec";
+
+let cachedCount = localStorage.getItem("subscriberCount");
+subscriberCount.textContent = cachedCount ? `Subscribers: ${cachedCount}` : "Subscribers: loading…";
+
+async function loadSubscriberCount() {
+  try {
+    const response = await fetch(SCRIPT_URL);
+    const data = await response.json();
+
+    const count = Math.max(data.length - 1, 0);
+    subscriberCount.textContent = `Subscribers: ${count}`;
+
+    localStorage.setItem("subscriberCount", count);
+
+  } catch (err) {
+    subscriberCount.textContent = "Subscribers: loading...";
+  }
+}
+
+window.addEventListener("load", () => {
+  setTimeout(loadSubscriberCount, 800);
+});
+
+subscribeBtn.addEventListener('click', async () => {
+  const emailInput = document.getElementById('email');
+  const email = emailInput.value.trim().toLowerCase();
+
+  if (!email) {
+    showPopup("Subscription", "Please enter an email address.");
+    return;
+  }
+
+  try {
+    showPopup("Processing...", "");
+
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        type: "subscribe",
+        email: email
+      })
+    });
+
+    emailInput.value = '';
+
+    showPopup(
+      "Thank You!",
+      "Welcome LMN user! Future announcements will be sent directly to you."
+    );
+
+  } catch (err) {
+    showPopup(
+      "Subscription Failed",
+      "Something went wrong. Please try again later."
+    );
+  }
+});
+</script>
 
 
 
