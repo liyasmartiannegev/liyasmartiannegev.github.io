@@ -568,7 +568,11 @@ document.querySelectorAll('.announcement-box').forEach(box => {
   box.addEventListener('click', function () {
     const isOpen = this.classList.contains('expanded');
     closeAllBoxes();
-    if (!isOpen) this.classList.add('expanded');
+    if (!isOpen) {
+  this.classList.add('expanded');
+  window.scrollTo(0, 0);
+}
+
   });
 
   closeButton.addEventListener('click', function (event) {
