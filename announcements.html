@@ -610,59 +610,46 @@ subscribeBtn.addEventListener('click', async () => {
 
   if (!email) {
     showPopup(
-      "Subscription",
-      "Please enter an email address."
-    );
+    "Subscription",
+    "Please enter an email address."
+);
     return;
   }
 
   try {
-    showPopup("Processing...", "");
-    await new Promise(requestAnimationFrame);
+showPopup("Processing...", "");
+await new Promise(requestAnimationFrame);
 
-    const response = await fetch(SCRIPT_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      body: JSON.stringify({
-        type: "subscribe",
-        email: email
-      })
-    });
 
-    const result = await response.text();
 
-    if (result === "Already subscribed") {
-      showPopup(
-        "Already Subscribed",
-        "This email address is already subscribed."
-      );
-      return;
-    }
+await fetch(SCRIPT_URL, {
+  method: "POST",
+  mode: "no-cors",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    type: "subscribe",
+    email: email
+  })
+});
 
-    if (result !== "Subscribed") {
-      throw new Error(result);
-    }
 
     emailInput.value = '';
-
-    await loadSubscriberCount();
-
     showPopup(
-      "Thank You!",
-      "Welcome LMN user! Future announcements will be sent directly to you."
-    );
+    "Thank You!",
+    "Welcome LMN user! Future announcements will be sent directly to you."
+);
 
   } catch (err) {
     console.error("Subscription failed:", err);
-
     showPopup(
-      "Subscription Failed",
-      "Something went wrong. Please try again later."
-    );
+    "Subscription Failed",
+    "Something went wrong. Please try again later."
+);
   }
 });
+
 
 
 </script>
