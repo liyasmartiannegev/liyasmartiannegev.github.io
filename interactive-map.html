@@ -162,10 +162,12 @@ html, body {
 
 .map-container {
   position: relative;
-  max-width: 1000px;
-  height: 650px;
+  width: min(100%, 1000px);
+  height: auto;
+  aspect-ratio: 1 / 1;
   margin: auto;
   overflow: hidden;
+  box-sizing: border-box;
   border: 8px solid rgb(255,255,255);
   box-shadow:
     0 0 10px white,
@@ -436,8 +438,9 @@ body {
 .map-container.expanded {
   width: calc(100vw - 260px);
   max-width: none;
-  height: 650px;
+  height: auto;
   z-index: 1000;
+
 
 
 .map-wrapper {
@@ -550,6 +553,7 @@ body {
   font-weight: bold;
     font-size: 28px;
 }
+
 
 
 
@@ -694,6 +698,23 @@ body {
 <script>
 
 const mapWrapper = document.getElementById("mapWrapper");
+
+
+const mapImage = mapWrapper.querySelector("img");
+const mapContainer = document.querySelector(".map-container");
+
+function sizeMapToImage() {
+  if (!mapImage.naturalWidth || !mapImage.naturalHeight) return;
+
+  mapContainer.style.aspectRatio =
+    `${mapImage.naturalWidth} / ${mapImage.naturalHeight}`;
+}
+
+mapImage.addEventListener("load", sizeMapToImage);
+
+if (mapImage.complete) {
+  sizeMapToImage();
+}
 
 
 const state = {
