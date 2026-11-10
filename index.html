@@ -659,7 +659,7 @@ color: #666;
 
 .image-text {
     position: absolute;
-    top: 50%;
+    top: 52%;
     left: 50%;
     transform: translate(-50%, -50%);
 
@@ -668,7 +668,7 @@ color: #666;
     color: rgb(117,40,194);
     font-style: italic;
     font-weight: bold;
-    font-size: 32px;
+    font-size: 36px;
     text-align: center;
     line-height: 1.2;
 }
@@ -771,7 +771,7 @@ margin-right: 36px;
 }
 
 .subscribe-box button:hover {
-  background-color: rgb(32, 255, 196);
+  background-color: rgb(158, 255, 187);
 }
 
 .subscribe-box h2 {
@@ -913,7 +913,7 @@ subscribeBtn.addEventListener('click', async () => {
   const email = emailInput.value.trim().toLowerCase();
 
   if (!email) {
-    showPopup("Subscription", "Please enter an email address.");
+    showPopup("Please enter an email address");
     return;
   }
 
